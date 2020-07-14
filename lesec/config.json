@@ -1,0 +1,147 @@
+{
+  "key_cc_prefix": "lesec:limit:cc:",
+  "key_ccc_prefix": "lesec:limit:ccc:",
+  "key_black_prefix": "lesec:black:",
+  "key_waf_prefix": "lesec:waf:",
+  
+  "redis": {
+    "host" : "redis",
+    "port" : 6379,
+    "password" : "jbXjijflmIP41T",
+    "db" : 0
+  },
+  
+  "whiteList": {
+    "IP": ["192.168.77.2"],
+    "URI": ["/system/test"]
+  },
+  
+  "acl": {
+    "demo_001": [{
+        "type": "URI",
+        "value": "/user/register",
+        "operator": "=",
+        "action" : "DENY"
+    },
+    {
+        "type": "IP",
+        "value": "127.0.0.1",
+        "operator": "=",
+        "action" : "DENY"
+    }
+    ]
+  },
+  
+  "cc": {
+    "enable": "True",
+    "check": 360,
+    "num": 800,
+    "time": 3600
+  },
+  
+  "cc_customize": {
+    "demo_app_001": {
+        "type": "URI",
+        "value": "/user/registerOne",
+        "operator": "=",
+        "check": 60,
+        "num": 20,
+        "time": 86400,
+        "action": "DENY"
+    },
+    "demo_002_app": {
+        "type": "URI",
+        "value": "/user/sendCode",
+        "operator": "=",
+        "check": 60,
+        "num": 20,
+        "time": 86400,
+        "action": "DENY"
+    },
+    "demo_ua_001": {
+        "type": "UserAgent",
+        "value": "Windows",
+        "operator": "match",
+        "check": 60,
+        "num": 20,
+        "time": 86400,
+        "action": "DENY"
+    }
+  },
+  "waf": {
+    "enable": "True",
+    "check": 360,
+    "num": 10,
+    "time": 86400
+  },
+  "argsRegularSec": [
+    "(?:%3c|<)[a-zA-Z]",
+    "\\w+\\(.*\\)",
+    "\\.\\./",
+    "\\:\\$",
+    "\\$\\{",
+    "select.+(from|limit)",
+    "(?:(union(.*?)select))",
+    "having|rongjitest",
+    "sleep\\((\\s*)(\\d*)(\\s*)\\)",
+    "benchmark\\((.*)\\,(.*)\\)",
+    "base64_decode\\(",
+    "(?:from\\W+information_schema\\W)",
+    "(?:(?:current_)user|database|schema|connection_id)\\s*\\(",
+    "(?:etc\\/\\W*passwd)",
+    "into(\\s+)+(?:dump|out)file\\s*",
+    "group\\s+by.+\\(",
+    "xwork.MethodAccessor",    "(?:define|eval|file_get_contents|include|require|require_once|shell_exec|phpinfo|system|passthru|preg_\\w+|execute|echo|print|print_r|var_dump|(fp)open|alert|showmodaldialog)\\(",
+    "xwork\\.MethodAccessor",
+    "(gopher|doc|php|glob|file|phar|zlib|ftp|ldap|dict|ogg|data)\\:\\/",
+    "java\\.lang",
+    "\\$_(GET|post|cookie|files|session|env|phplib|GLOBALS|SERVER)\\[",
+    "\\<(iframe|script|body|img|layer|div|meta|style|base|object|input)",
+    "(onmouseover|onerror|onload)\\="
+  ],
+  "bodyRegularSec": [
+    "select.+(from|limit)",
+    "(?:(union(.*?)select))",
+    "having|rongjitest",
+    "sleep\\((\\s*)(\\d*)(\\s*)\\)",
+    "benchmark\\((.*)\\,(.*)\\)",
+    "base64_decode\\(",
+    "(?:from\\W+information_schema\\W)",
+    "(?:(?:current_)user|database|schema|connection_id)\\s*\\(",
+    "(?:etc\\/\\W*passwd)",
+    "into(\\s+)+(?:dump|out)file\\s*",
+    "group\\s+by.+\\(",
+    "xwork.MethodAccessor",    "(?:define|eval|file_get_contents|include|require|require_once|shell_exec|phpinfo|system|passthru|preg_\\w+|execute|echo|print|print_r|var_dump|(fp)open|alert|showmodaldialog)\\(",
+    "xwork\\.MethodAccessor",
+    "(gopher|doc|php|glob|file|phar|zlib|ftp|ldap|dict|ogg|data)\\:\\/",
+    "java\\.lang",
+    "\\$_(GET|post|cookie|files|session|env|phplib|GLOBALS|SERVER)\\[",
+    "(onmouseover|onerror|onload)\\="
+  ],
+  "uaRegularSec": [
+    "(grabber|pmafind|cgichk|bsqlbf|jaascois|nsauditor|dirbuster|paros|pangolin|nikto)",
+    "mozilla/4.0 (compatible)",
+    "mozilla/4.0 (compatible; msie 6.0; win32)",
+    "mozilla/5.0 sf//",
+    "(nessus|sqlmap|arachni|metis|bilbo|absinthe|brutus|sqlninja|netsparker|webinspect|blackwidow)",
+    "sql power injector",
+    "black widow",
+    "n-stealth",
+    "webtrends security analyzer",
+    ".nasl",
+    "nmap nse",
+    "grendel-scan",
+    "(hydra|w3af|havij|python-httplib2)",
+    "(curl/|Wget/)",
+    "(grabber|libwww-perl|scanner|robot)"
+   ],
+  "uriFileRegularSec": [
+    "\\.(svn|htaccess|bash_history)",
+    "\\.(bak|inc|old|mdb|sql|backup|java|class)$",
+    "(?:\\b(?:\\.(?:ht(?:access|passwd|group)|www_?acl)|global\\.asa|httpd\\.conf|boot\\.ini)\\b|\\/etc\\/)",
+    "(vhost|bbs|host|wwwroot|www|site|root|hytop|flashfxp).*\\.rar",
+    "(phpmyadmin|jmx-console|jmxinvokerservlet)",
+    "java\\.lang",
+    "web.xml"
+  ]
+}

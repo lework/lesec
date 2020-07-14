@@ -1,0 +1,37 @@
+version: '3'
+
+networks:
+  lesec:
+  
+services:
+  redis:
+    container_name: redis
+    image: redis:alpine
+    volumes:
+      - "./redis_data:/data"
+      - "/etc/localtime:/etc/localtime"
+    restart: always
+    command: [
+      '--port 6379',
+      '--requirepass jbXjijflmIP41T',
+      '--appendonly yes',
+      '--aof-use-rdb-preamble yes'
+    ]
+    networks:
+      - lesec
+      
+  openresty:
+    container_name: openresty
+    image: openresty/openresty:alpine
+    volumes:
+      - "./nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf"
+      - "./nginx/default.conf:/etc/nginx/conf.d/default.conf"
+      - "./lesec:/usr/local/openresty/lualib/lesec"
+      - "/etc/localtime:/etc/localtime"
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - redis
+    networks:
+      - lesec
